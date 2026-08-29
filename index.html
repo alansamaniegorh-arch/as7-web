@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AS7 LIVE | Transmisiones Deportivas</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #050505;
+      color: white;
+    }
+
+    header {
+      background: #111;
+      padding: 18px 25px;
+      border-bottom: 2px solid #e10600;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 32px;
+      font-weight: 900;
+    }
+
+    header span {
+      color: #e10600;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 25px 15px;
+    }
+
+    .live {
+      display: inline-block;
+      background: #e10600;
+      padding: 7px 14px;
+      border-radius: 5px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .player {
+      background: #000;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #333;
+      aspect-ratio: 16 / 9;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      background: #000;
+    }
+
+    .info {
+      background: #111;
+      margin-top: 18px;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .info h2 {
+      margin-bottom: 10px;
+    }
+
+    .status {
+      color: #aaa;
+      margin-top: 8px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #777;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>AS7 <span>LIVE</span></h1>
+  <p>Transmisiones deportivas</p>
+</header>
+
+<div class="container">
+
+  <div class="live">🔴 EN VIVO</div>
+
+  <div class="player">
+    <video
+      id="video"
+      controls
+      autoplay
+      playsinline>
+    </video>
+  </div>
+
+  <div class="info">
+    <h2>AS7 Deportes</h2>
+    <p>Disfruta nuestras transmisiones deportivas en vivo.</p>
+    <p class="status" id="status">Conectando con la transmisión...</p>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 AS7 Deportes · Todos los derechos reservados
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<script>
+  const video = document.getElementById("video");
+  const status = document.getElementById("status");
+
+  const stream =
+    "https://183.bozztv.com/ssh101/ssh101/as7futbol/playlist.m3u8";
+
+  if (Hls.isSupported()) {
+    const hls = new Hls();
+
+    hls.loadSource(stream);
+    hls.attachMedia(video);
+
+    hls.on(Hls.Events.MANIFEST_LOADED, function () {
+      status.textContent = "Transmisión conectada correctamente.";
+    });
+
+    hls.on(Hls.Events.ERROR, function () {
+      status.textContent = "Esperando la señal...";
+    });
+
+  } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+    video.src = stream;
+
+    video.addEventListener("loadedmetadata", function () {
+      status.textContent = "Transmisión conectada correctamente.";
+    });
+
+  } else {
+    status.textContent =
+      "Tu navegador no es compatible con esta transmisión.";
+  }
+</script>
+
+</body>
+</html>
