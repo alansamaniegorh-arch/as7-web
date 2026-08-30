@@ -1,0 +1,8 @@
+name = "as7-web"
+compatibility_date = "2026-08-29"
+pages_build_output_dir = "."
+
+[[d1_databases]]
+binding = "DB"
+database_name = "as7-live-db"
+database_id = "40a495bc-03df-43f8-8513-ce49cc590127"
